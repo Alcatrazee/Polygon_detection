@@ -5,6 +5,9 @@
 using namespace std;
 using namespace cv;
 
+// usage: detect polygons and return their position in graph
+// last update: 7-5-2019 14:50
+// input params: source image, output image ,vector of mass of center, vector of shape(int)
 void Polygon_detection(Mat &srcImg,Mat &dstImg,vector<Point2f> &out_mc,vector<int> &shape){
   cvtColor(srcImg, srcImg, CV_BGR2GRAY);
   threshold(srcImg, srcImg, 200, 255, CV_THRESH_BINARY_INV);
@@ -19,7 +22,7 @@ void Polygon_detection(Mat &srcImg,Mat &dstImg,vector<Point2f> &out_mc,vector<in
   vector<Point2f>mc(contours.size());
 
   for (int i = 0; i < contours.size(); i++) {
-    double epsilon = 0.01 * arcLength(contours[i], true);
+    double epsilon = 0.01 * arcLength(contours[i], true);             
     approxPolyDP(Mat(contours[i]), contours_poly[i], epsilon, true);
     drawContours(dstImg, contours_poly, i, Scalar(0, 255, 255), 2, 8); 
     mu[i] = moments(contours_poly[i], false);
